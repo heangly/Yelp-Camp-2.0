@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "data:import" : "node seeds/"
+    "data:import": "node seeds/"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
     "colors": "^1.4.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "method-override": "^3.0.0",
     "mongoose": "^5.12.3"
   },
   "devDependencies": {
