@@ -4,7 +4,8 @@
   "description": "- Javascript - Node - Express - MongoDB - Mongoose",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "data:import" : "node seeds/"
   },
   "repository": {
     "type": "git",
