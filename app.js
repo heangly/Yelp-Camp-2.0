@@ -4,12 +4,14 @@ const connectDB = require('./connection/db')
 const path = require('path')
 const methodOverride = require('method-override')
 const morgan = require('morgan')
+const ejsMate = require('ejs-mate')
 
 const Campground = require('./models/campground')
 const app = express()
 
 connectDB()
 
+app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 app.use(express.json())
