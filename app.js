@@ -7,6 +7,7 @@ const morgan = require('morgan')
 const ejsMate = require('ejs-mate')
 const Campground = require('./models/campground')
 const catchAsync = require('./utiles/catchAsync')
+const ExpressError = require('./utiles/ExpressError')
 
 const app = express()
 
@@ -42,6 +43,8 @@ app.get(
 app.post(
   '/campgrounds',
   catchAsync(async (req, res, next) => {
+    if (!req.body.campground)
+      throw new ExpressError('Invalid Campground Data', 400)
     const newCampground = await Campground(req.body.campground)
     await newCampground.save()
     res.redirect(`/campgrounds/${newCampground._id}`)
@@ -86,8 +89,14 @@ app.delete(
   })
 )
 
+app.use('*', (req, res, next) => {
+  next(new ExpressError('Page Not Found'), 404)
+})
+
 app.use((err, req, res, next) => {
-  res.send('Oh boy, something went wrong!')
+  const { statusCode = 500 } = err
+  if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+  res.status(statusCode).render('error', { err })
 })
 
 const PORT = 3000
