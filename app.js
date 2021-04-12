@@ -8,6 +8,7 @@ const ejsMate = require('ejs-mate')
 const Campground = require('./models/campground')
 const catchAsync = require('./utiles/catchAsync')
 const ExpressError = require('./utiles/ExpressError')
+const { campgroundSchema } = require('./schemas')
 
 const app = express()
 
@@ -20,6 +21,17 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(morgan('dev'))
+
+const validateCampground = (req, res, next) => {
+  const { error } = campgroundSchema.validate(req.body)
+
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  } else {
+    next()
+  }
+}
 
 app.get('/', (req, res) => {
   res.render('home')
@@ -42,9 +54,8 @@ app.get(
 
 app.post(
   '/campgrounds',
+  validateCampground,
   catchAsync(async (req, res, next) => {
-    if (!req.body.campground)
-      throw new ExpressError('Invalid Campground Data', 400)
     const newCampground = await Campground(req.body.campground)
     await newCampground.save()
     res.redirect(`/campgrounds/${newCampground._id}`)
@@ -71,6 +82,7 @@ app.get(
 
 app.put(
   '/campgrounds/:id',
+  validateCampground,
   catchAsync(async (req, res) => {
     const { id } = req.params
     const campground = await Campground.findByIdAndUpdate(id, {
