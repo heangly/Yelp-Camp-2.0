@@ -10,6 +10,9 @@ const ExpressError = require('./utiles/ExpressError')
 const campgroundRoutes = require('./routes/campgrounds')
 const reviewRoutes = require('./routes/reviews')
 const flash = require('connect-flash')
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
+const User = require('./models/user')
 
 const app = express()
 
@@ -37,6 +40,15 @@ app.use(
   })
 )
 
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
+passport.use(new LocalStrategy(User.authenticate()))
+
 app.use((req, res, next) => {
   res.locals.success = req.flash('success')
   res.locals.error = req.flash('error')
@@ -45,6 +57,12 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
   res.render('home')
+})
+
+app.get('/fakeuser', async (req, res) => {
+  const user = new User({ email: 'heang@gmail.com', username: 'heang' })
+  const newUser = await User.register(user, '12345')
+  res.send(newUser)
 })
 
 app.use('/campgrounds', campgroundRoutes)
