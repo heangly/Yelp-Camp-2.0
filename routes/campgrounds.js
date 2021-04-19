@@ -2,6 +2,10 @@ const express = require('express')
 const catchAsync = require('../utiles/catchAsync')
 const { isLoggedIn, isAuthor, validateCampground } = require('../middleware')
 const campgrounds = require('../controllers/campgrounds')
+
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 const router = express.Router()
 
 router
