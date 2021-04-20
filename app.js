@@ -1,3 +1,5 @@
+process.env.NODE_ENV !== 'production' && require('dotenv').config()
+
 require('colors')
 const express = require('express')
 const connectDB = require('./connection/db')
