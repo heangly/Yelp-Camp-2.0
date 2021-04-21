@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/heangly/Yelp-Camp-2.0#readme",
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.12.1",
     "axios": "^0.21.1",
     "cloudinary": "^1.25.1",
     "colors": "^1.4.0",

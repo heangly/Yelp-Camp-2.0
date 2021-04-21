@@ -3,6 +3,7 @@
 
 <div class="row">
   <div class="col-6">
+    <div id="map" style="width: 400px; height: 300px"></div>
     <div
       id="carouselExampleControls"
       class="carousel slide"
@@ -136,3 +137,9 @@
     <% } %>
   </div>
 </div>
+
+<script>
+  const mapToken = '<%-process.env.MAPBOX_TOKEN%>'
+  let campground = '<%- JSON.stringify(campground) %>'
+</script>
+<script src="/javascripts/showPageMap.js"></script>
