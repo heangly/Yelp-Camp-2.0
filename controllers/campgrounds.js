@@ -30,7 +30,6 @@ module.exports.createCampground = async (req, res, next) => {
   }))
   newCampground.author = req.user._id
   await newCampground.save()
-  console.log(newCampground)
   req.flash('success', 'Successfully made a new campground!')
   res.redirect(`/campgrounds/${newCampground._id}`)
 }

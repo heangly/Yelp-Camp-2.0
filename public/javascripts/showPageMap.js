@@ -15,5 +15,3 @@ new mapboxgl.Marker()
     new mapboxgl.Popup({ offset: 25 }).setHTML(`<h3>${campground.title}</h3>`)
   )
   .addTo(map)
-
-console.log(campground)
