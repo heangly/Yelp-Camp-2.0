@@ -16,6 +16,7 @@ const flash = require('connect-flash')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./models/user')
+const mongoSanitize = require('express-mongo-sanitize')
 
 const app = express()
 connectDB()
@@ -29,6 +30,8 @@ app.use(methodOverride('_method'))
 app.use(morgan('dev'))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(flash())
+app.use(mongoSanitize())
+
 app.use(
   expressSession({
     secret: 'thisshouldbeabettersecret',
